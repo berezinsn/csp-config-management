@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe 
+set -e 
 
 # Copy operator yaml file from the google cloud bucket
 gsutil cp gs://config-management-release/released/latest/config-sync-operator.yaml config-sync-operator.yaml
@@ -22,11 +22,17 @@ then
     ssh-keygen -q -t rsa -N '' -f ./keys/git-creds 2>/dev/null <<< y >/dev/null
     echo "Don't forget attach your public ssh key to the git accout/repo" 
 else
-    echo "Keys alredy exist, creating the secret"
+    echo "Keys directory alredy exist, checkhing existance of the K8S secret"
 fi
 
-# Create K8S secret from file 
-kubectl create secret generic git-creds --namespace=config-management-system --from-file=ssh=./keys/git-creds
+# Create K8S secret from file if not yet exist
+SECRET_EXISTS=$(kubectl get secret git-creds -n config-management-system --no-headers --output=go-template={{.metadata.name}} 2>/dev/null)
+if [ -z "${SECRET_EXISTS}" ]
+then
+    kubectl create secret generic git-creds --namespace=config-management-system --from-file=ssh=./keys/git-creds
+else
+    echo "Secret private key is already exists as a K8S secret"
+fi
 
 # Nomos installation
 gsutil cp gs://config-management-release/released/latest/darwin_amd64/nomos /usr/local/bin/nomos && chmod +x /usr/local/bin/nomos
@@ -35,4 +41,4 @@ gsutil cp gs://config-management-release/released/latest/darwin_amd64/nomos /usr
 kubectl apply -f config-management.yaml
 
 # Nomos validation
-nomos vet
+nomos vet --path=./config-sync
