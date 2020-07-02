@@ -13,7 +13,7 @@ then
     mkdir keys
     echo "keys dir has been created"
 else 
-    "keys dir has been detected"
+    echo "keys dir has been detected"
 fi
 
 # Generate the key or plase your personal keys in ./keys directory
