@@ -1,7 +1,5 @@
 #!/bin/bash
 
-set -e 
-
 # Copy operator yaml file from the google cloud bucket
 gsutil cp gs://config-management-release/released/latest/config-sync-operator.yaml config-sync-operator.yaml
 
