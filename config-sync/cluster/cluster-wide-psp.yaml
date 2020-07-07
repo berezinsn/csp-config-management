@@ -4,13 +4,6 @@ metadata:
   name: example
 spec:
   privileged: false
-  seLinux:
-    rule: RunAsAny
-  supplementalGroups:
-    rule: RunAsAny
+  allowPrivilegeEscalation: false
   runAsUser:
-    rule: true
-  fsGroup:
-    rule: RunAsAny
-  volumes:
-  - '*'
+    rule: 'MustRunAsNonRoot'
