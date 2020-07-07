@@ -1,0 +1,11 @@
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: qa-network-policy
+  namespace: qa
+spec:
+  podSelector:
+    matchLabels:
+  ingress:
+    - from:
+        - podSelector: {}
