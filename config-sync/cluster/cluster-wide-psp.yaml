@@ -7,3 +7,12 @@ spec:
   allowPrivilegeEscalation: false
   runAsUser:
     rule: 'MustRunAsNonRoot'
+  # Following permissive keys must be persisted (Do not delete this)
+  seLinux:
+    rule: RunAsAny
+  supplementalGroups:
+    rule: RunAsAny
+  fsGroup:
+    rule: RunAsAny
+  volumes:
+  - '*'
