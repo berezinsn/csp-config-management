@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: sa-developer
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: developer
+  namespace: qa
+rules:
+- apiGroups: ["apps","extensions"]
+  resources: ["deployments","configmaps", "pods", "secrets","services"]
+  verbs: ["create","get","delete","list","update","edit","watch","exec","patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: developer
+  namespace: qa
+roleRef:
+  kind: Role
+  name: developer
+  apiGroup: rbac.authorization.k8s.io
+subjects:
+- kind: ServiceAccount
+  namespace: qa
+  name: sa-developer
