@@ -1,0 +1,12 @@
+# Feature branch checking 
+# nomos vet --path=config-sync
+steps:
+- id: Code validation
+  name: gcr.io/infra-cicd-279015/nomos
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    nomos vet --path=config-sync || exit 1
+    echo "Configuration successfully validated"
+
