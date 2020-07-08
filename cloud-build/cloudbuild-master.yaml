@@ -2,23 +2,29 @@
 
 steps:
 - id: GKE access
-  name: gcr.io/cloud-builders/kubectl
-  entrypoint: 'bash'
-  args:
-  - '-c'
-  - |
-    gcloud container clusters get-credentials gke-dev --zone us-central1-a --project infra-cicd-279015
+  name: 'gcr.io/cloud-builders/kubectl'
+  args: ['config', 'current-context']
   volumes:
-  - name: 'gke-entry'
-    path: /home/.kube
-     
-- id: Check the config-sync status
-  name: gcr.io/infra-cicd-279015/nomos
+  - name: 'kube'
+    path: '/kube'
+  env:
+  - 'KUBECONFIG=/kube/config'
+  - 'CLOUDSDK_COMPUTE_ZONE=[ZONE]'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=[CLUSTER_NAME]'
+  - 'CLOUDSDK_CONTAINER_USE_APPLICATION_DEFAULT_CREDENTIALS=true'
+
+- id: Change permissions on kube/config
+  name: 'bash'
+  args: ['chmod', '444', '/kube/config']
+  volumes:
+  - name: 'kube'
+    path: '/kube'
+
+- id: Status check
+  name: 'gcr.io/config-management-release/nomos:stable'
   entrypoint: 'bash'
   args:
   - '-c'
   - |
     nomos status
-  volumes:
-  - name: 'gke-entry'
-    path: /home/.kube/
+

@@ -41,13 +41,5 @@ kubectl apply -f config-management.yaml
 # Nomos validation
 nomos vet --path=./config-sync
 
-# Download binary for the docker image
-gsutil cp gs://config-management-release/released/latest/linux_amd64/nomos ./nomos-image
-
-# Build tag and push the image
-cd ./nomos-image
-docker build . -t gcr.io/infra-cicd-279015/nomos
-docker push gcr.io/infra-cicd-279015/nomos
-
 
 
