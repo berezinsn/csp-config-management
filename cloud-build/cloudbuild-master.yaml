@@ -27,4 +27,9 @@ steps:
   - '-c'
   - |
     nomos status
+  volumes:
+  - name: 'kube'
+    path: '/kube'
+  env:
+  - 'KUBECONFIG=/kube/config'
 
