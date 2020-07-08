@@ -1,1 +1,10 @@
 # Master branch trigger
+
+steps:
+- id: GKE access
+  name: gcr.io/cloud-builders/kubectl
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    gcloud container clusters get-credentials gke-dev --zone us-central1-a --project infra-cicd-279015
