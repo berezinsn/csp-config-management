@@ -27,3 +27,4 @@ steps:
   - '-c'
   - |
     nomos status
+
