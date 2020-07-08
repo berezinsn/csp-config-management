@@ -10,7 +10,7 @@ steps:
     gcloud container clusters get-credentials gke-dev --zone us-central1-a --project infra-cicd-279015
   volumes:
   - name: 'gke-entry'
-    path: ~/.kube/
+    path: /home/.kube
      
 - id: Check the config-sync status
   name: gcr.io/infra-cicd-279015/nomos
@@ -21,4 +21,4 @@ steps:
     nomos status
   volumes:
   - name: 'gke-entry'
-    path: ~/.kube/
+    path: /home/.kube/
