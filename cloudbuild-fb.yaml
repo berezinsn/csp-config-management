@@ -7,4 +7,6 @@ steps:
   args:
   - '-c'
   - |
-    nomos vet --path=config-sync
+    nomos vet --path=config-sync || exit 1
+    echo "Configuration successfully validated"
+
