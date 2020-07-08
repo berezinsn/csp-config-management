@@ -7,4 +7,4 @@ steps:
   args:
   - '-c'
   - |
-    nomos vet config-sync
+    nomos vet --path=config-sync
